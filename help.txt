@@ -1,0 +1,17 @@
+npm init  // To create package.json & initialize
+
+npm install express
+
+create app.js
+
+node app // To run
+
+npm install nodemon -g // Run server automatically after changes
+nodemon app
+
+
+https://cloud.mongodb.com/
+user - sourav
+password - VG1cL3I2KzAkyfvk
+
+npm install mongoose
