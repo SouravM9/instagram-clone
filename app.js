@@ -3,6 +3,10 @@ const app = express();
 const PORT = 5000;
 const mongoose = require('mongoose');
 const { MONGO_URI } = require('./keys');
+//const uri = process.env.MONGO_URI;
+
+require('./models/user');
+require('./models/post');
 
 /* Middleware in NodeJS demo codes
 
@@ -38,6 +42,11 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.log("Error", err);
 })
+
+
+app.use(express.json()); // Parse the Json request - middleware
+app.use(require('./routes/auth'));
+app.use(require('./routes/post'));
 
 app.listen(PORT, () => {
     console.log("Server is running on", PORT);
