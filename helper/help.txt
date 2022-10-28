@@ -33,3 +33,8 @@ This way, when you fetch('/api/todos') in development, the development server wi
 that it’s not a static asset, and will proxy your request to http://localhost:4000/api/todos 
 as a fallback. The development server will only attempt to send requests without text/html in its 
 Accept header to the proxy.
+
+
+For image storage-
+https://cloudinary.com/
+https://flaviocopes.com/how-to-upload-files-fetch/

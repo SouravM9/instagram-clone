@@ -39,6 +39,8 @@ const Login = () => {
           M.toast({ html: data.error, classes: "#e53935 red darken-1" });
         }
         else {
+          localStorage.setItem("jwt", data.token);  // Save the token locally to use in create post
+          localStorage.setItem("user", JSON.stringify(data.user));
           M.toast({ html: 'Login Successful!', classes: "#81c784 green lighten-2" });
           navigate('/');
         }
