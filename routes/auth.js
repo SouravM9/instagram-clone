@@ -34,7 +34,7 @@ router.post('/signup', (req, res) => {
 
                     user.save()
                         .then(user => {
-                            res.json({ message: "User saved successfully" });
+                            res.json({ message: "Email registered successfully" });
                         })
                         .catch(err => {
                             console.log(err);
