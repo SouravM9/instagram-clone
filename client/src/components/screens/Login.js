@@ -1,33 +1,83 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import M from 'materialize-css';
 
 const Login = () => {
-  return (
-    <div className="mycard">
-      <div className="card auth-card input-field">
-        <h2>Instagram</h2>
-        <input
-          type="text"
-          placeholder="email"
-        />
-        <input
-          type="password"
-          placeholder="password"
-        />
-        <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
-        >
-          Login
-        </button>
-        <h5>
-          <Link to="/signup">Dont have an account ?</Link>
-        </h5>
-        <h6>
-          <Link to="/reset">Forgot password ?</Link>
-        </h6>
+  const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const PostData = () => {
+
+    if (!validateEmail(email)) {
+      M.toast({ html: 'Invalid Email', classes: "#e53935 red darken-1" });
+      return;
+    }
+
+    fetch("/signin", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        password: password,
+        email: email
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          M.toast({ html: data.error, classes: "#e53935 red darken-1" });
+        }
+        else {
+          M.toast({ html: 'Login Successful!', classes: "#81c784 green lighten-2" });
+          navigate('/');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+    return (
+      <div className="mycard">
+        <div className="card auth-card input-field">
+          <h2>Instagram</h2>
+          <input
+            type="email"
+            placeholder="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
+          onClick={PostData}
+          >
+            Login
+          </button>
+          <h5>
+            <Link to="/signup">Dont have an account ?</Link>
+          </h5>
+          <h6>
+            <Link to="/reset">Forgot password ?</Link>
+          </h6>
+
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
-export default Login
+  export default Login

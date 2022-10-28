@@ -44,6 +44,9 @@ const Signup = () => {
           navigate('/login');
         }
       })
+      .catch(err => {
+        console.log(err);
+      });
   }
   return (
     <div className="mycard">
@@ -66,7 +69,6 @@ const Signup = () => {
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-
         />
         <div className="file-field input-field">
           <div className="btn #64b5f6 blue darken-1">
