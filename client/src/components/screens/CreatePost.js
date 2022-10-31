@@ -11,7 +11,8 @@ const CreatePost = () => {
 
     // Triggers only when url gets updated. Wait till the image is uploaded to Cloudinary & provide image url
     useEffect(() => {
-        if (url) {
+        if (url) // Check if URL is set or not - to ignore useState trigger
+        {
             fetch("/createpost", {
                 method: "post",
                 headers: {
@@ -30,7 +31,7 @@ const CreatePost = () => {
                         M.toast({ html: data.error, classes: "#c62828 red darken-3" })
                     }
                     else {
-                        M.toast({ html: "Created post Successfully", classes: "#43a047 green darken-1" })
+                        M.toast({ html: "Posted Successfully!", classes: "#43a047 green darken-1" })
                         navigate('/')
                     }
                 }).catch(err => {
@@ -55,8 +56,6 @@ const CreatePost = () => {
             .catch(err => {
                 console.log(err)
             })
-
-
     }
     return (
         <div className="card input-filed"

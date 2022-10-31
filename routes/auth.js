@@ -11,9 +11,10 @@ const requireLogin = require('../middleware/requireLogin');
 //     res.send("Hello!");
 // });
 
-router.get('/protected', requireLogin, (req, res) => {  // Lets assume this as protected resource
-    res.send("Hello User");
-})
+// router.get('/protected', requireLogin, (req, res) => {  // Lets assume this as protected resource
+//     res.send("Hello User");
+// });
+
 router.post('/signup', (req, res) => {
     const { name, email, password } = req.body;
     if (!email || !password || !name) {

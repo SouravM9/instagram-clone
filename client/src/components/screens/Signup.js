@@ -88,10 +88,6 @@ const Signup = () => {
           <Link to="/login">Already have an account ?</Link>
         </h5>
 
-
-
-
-
       </div>
     </div>
   )
