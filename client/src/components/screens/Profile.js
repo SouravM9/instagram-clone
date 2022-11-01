@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../../App';
 
 const Profile = () => {
+  const [mypics, setMypics] = useState([]);
+  const { state, dispatch } = useContext(UserContext);
+
+  useEffect(() => {
+    fetch('/mypost', {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt")
+      }
+    })
+      .then(res => res.json())
+      .then(result => {
+        // console.log(result);
+        setMypics(result.mypost)
+      })
+  }, []);
   return (
     <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div style={{
@@ -17,14 +33,14 @@ const Profile = () => {
           <div>
             <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
               src="https://media-exp1.licdn.com/dms/image/D5635AQE7ccYr1HBVAg/profile-framedphoto-shrink_400_400/0/1664137707379?e=1667494800&v=beta&t=FtfvfxZs_xBn5sh4ke8No25DloypHyVcwUv2l-KJSu4"
-            alt="profilepic"
+              alt="profilepic"
 
             />
 
           </div>
           <div>
-            <h4>Sourav</h4>
-            <h5>sourav@gmail.com</h5>
+            <h4>{state ? state.name : "Loading"}</h4>
+            <h5>{state ? state.email : "Loading"}</h5>
             <div style={{ display: "flex", justifyContent: "space-between", width: "108%" }}>
               <h6>10 posts</h6>
               <h6>100 followers</h6>
@@ -45,13 +61,18 @@ const Profile = () => {
         </div>
       </div>
       <div className="gallery">
+        {
+          mypics.map(item => {
+            return (
+              <img className="item"
+                src={item.photo}
+                alt={item.title}
+                key={item._id}
+              />
+            )
+          })
+        }
 
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
-        <img className="item" src="https://images.pexels.com/photos/3136403/pexels-photo-3136403.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Mountains" />
       </div>
     </div>
   )
