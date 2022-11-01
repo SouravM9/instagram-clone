@@ -30,6 +30,7 @@ router.post('/createpost', requireLogin, (req, res) => {
 
 router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
+    // .sort({postedDate: 1})  // TODO: Sort by posted date
         .populate("postedBy", "_id name")
         .then(posts => {
             res.json({ posts });
