@@ -30,8 +30,9 @@ router.post('/createpost', requireLogin, (req, res) => {
 
 router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
-    // .sort({postedDate: 1})  // TODO: Sort by posted date
+        // .sort({postedDate: 1})  // TODO: Sort by posted date
         .populate("postedBy", "_id name")
+        .populate("comments.postedBy","_id name")    // Added to populate the commented person name
         .then(posts => {
             res.json({ posts });
         })
@@ -77,5 +78,28 @@ router.put('/unlike', requireLogin, (req, res) => {
         }
     })
 })
+
+router.put('/comment', requireLogin, (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id              // Userid of person who commented
+    }
+    Post.findByIdAndUpdate(req.body.postId, {
+        $push: { comments: comment }
+    }, {
+        new: true
+    })
+        .populate("postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")    // populate() method is used to replace the user ObjectId field with the whole document consisting of all the user data
+
+        .exec((err, result) => {
+            if (err) {
+                return res.status(422).json({ error: err })
+            } else {
+                res.json(result)
+            }
+        })
+})
+
 
 module.exports = router;

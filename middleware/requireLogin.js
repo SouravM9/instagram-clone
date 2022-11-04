@@ -18,9 +18,9 @@ module.exports = (req, res, next) => {
 
         const { _id } = payload;
         User.findById(_id).then(userdata => {
-            req.user = userdata;
+            req.user = userdata;            // Passing the user data so that we can get in req.user in API
             next();
         });
-        
+
     });
 }

@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 
 const Home = () => {
   const [data, setData] = useState([]);
-  const { state, dispatch } = useContext(UserContext)
+  const { state, dispatch } = useContext(UserContext);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     fetch('/allpost', {
@@ -34,7 +35,7 @@ const Home = () => {
       .then(result => {
         // console.log(result)
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -59,7 +60,7 @@ const Home = () => {
       .then(result => {
         //   console.log(result)
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -69,6 +70,35 @@ const Home = () => {
       }).catch(err => {
         console.log(err)
       })
+  }
+
+  const makeComment = (text, postId) => {
+    fetch('/comment', {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        postId,
+        text
+      })
+    }).then(res => res.json())
+      .then(result => {
+        // console.log(result)
+        const newData = data.map(item => {
+          if (item._id === result._id) {
+            return result
+          } else {
+            return item
+          }
+        })
+        setData(newData)
+      }).catch(err => {
+        console.log(err)
+      })
+
+    setComment('');  // Clear the comment
   }
 
   return (
@@ -100,7 +130,25 @@ const Home = () => {
 
                 <h6>{item.title}</h6>
                 <p>{item.body}</p>
-                <input type="text" placeholder="Add a comment" />
+                {
+                  item.comments.map(record => {
+                    return (
+                      <h6 key={record._id}><span style={{ fontWeight: "500" }}>{record.postedBy.name}</span> {record.text}</h6>
+                    )
+                  })
+                }
+                <form onSubmit={(e) => {
+                  e.preventDefault();        // Restrict page from getting refreshed
+                  makeComment(e.target[0].value, item._id);
+                }}>
+                  <input
+                    id="comment"
+                    type="text"
+                    placeholder="add a comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </form>
               </div>
             </div>
           )
