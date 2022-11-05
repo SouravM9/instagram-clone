@@ -30,7 +30,7 @@ const Profile = () => {
                     }}>
                         <div>
                             <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-                                src=""
+                                src={userProfile.user.pic}
                                 alt=""
                             />
                         </div>

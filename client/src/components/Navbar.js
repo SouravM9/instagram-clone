@@ -39,7 +39,7 @@ const Navbar = () => {
         <nav>
             <div className="nav-wrapper white">
                 {/* Same list render list i.e., if logged in then only you can go to home screen */}
-                <Link to={state ? "/" : "/login"} className="brand-logo left">Instagram</Link>
+                <Link to={state ? "/" : "/login"} className="brand-logo left">Instawild</Link>
                 <ul id="nav-mobile" className="right">
                     {renderList()}
                 </ul>
