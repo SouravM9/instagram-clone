@@ -30,7 +30,7 @@ router.post('/createpost', requireLogin, (req, res) => {
 
 router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
-        // .sort({postedDate: 1})  // TODO: Sort by posted date
+        .sort('-createdAt')  // TODO: Sort by created date
         .populate("postedBy", "_id name")
         .populate("comments.postedBy", "_id name")    // Added to populate the commented person name
         .then(posts => {
@@ -43,6 +43,7 @@ router.get('/allpost', requireLogin, (req, res) => {
 
 router.get('/mypost', requireLogin, (req, res) => {
     Post.find({ postedBy: req.user._id })
+        .sort('-createdAt')
         .populate("postedBy", "_id name")
         .then(mypost => {
             res.json({ mypost });
