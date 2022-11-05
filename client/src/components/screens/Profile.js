@@ -32,8 +32,8 @@ const Profile = () => {
         }}>
           <div>
             <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-              src="https://media-exp1.licdn.com/dms/image/D5635AQE7ccYr1HBVAg/profile-framedphoto-shrink_400_400/0/1664137707379?e=1667494800&v=beta&t=FtfvfxZs_xBn5sh4ke8No25DloypHyVcwUv2l-KJSu4"
-              alt="profilepic"
+              src={state ? state.pic : ""}
+              alt="Profile Picture"
 
             />
 

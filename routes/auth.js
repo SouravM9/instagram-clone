@@ -16,7 +16,7 @@ const requireLogin = require('../middleware/requireLogin');
 // });
 
 router.post('/signup', (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, pic } = req.body;
     if (!email || !password || !name) {
         return res.status(422).json({ error: "Please fill up all fields" });
     }
@@ -30,7 +30,8 @@ router.post('/signup', (req, res) => {
                     const user = new User({
                         email: email,
                         password: hashedpassword,
-                        name: name
+                        name: name,
+                        pic: pic
                     });
 
                     user.save()
@@ -63,8 +64,8 @@ router.post('/signin', (req, res) => {
                     if (doMatch) {
                         //res.json({ message: "Successfully signed in" });
                         const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET); // Generate a Json Web Token so that user can access protected resource using that token
-                        const { _id, name, email } = savedUser;
-                        res.json({ token: token, user: { _id, name, email } });
+                        const { _id, name, email, pic } = savedUser;
+                        res.json({ token: token, user: { _id, name, email, pic } });
                     }
                     else {
                         return res.status(422).json({ error: "Invalid Email or Password" });

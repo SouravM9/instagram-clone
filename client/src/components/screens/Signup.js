@@ -7,6 +7,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [url, setUrl] = useState(undefined);
 
   const validateEmail = (email) => {
     return String(email)
@@ -31,7 +32,8 @@ const Signup = () => {
       body: JSON.stringify({
         name: name,
         password: password,
-        email: email
+        email: email,
+        pic: url
       })
     })
       .then(res => res.json())
@@ -70,15 +72,6 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="file-field input-field">
-          <div className="btn #64b5f6 blue darken-1">
-            <span>Upload pic</span>
-            <input type="file" />
-          </div>
-          <div className="file-path-wrapper">
-            <input className="file-path validate" type="text" />
-          </div>
-        </div>
         <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
           onClick={PostData}
         >
