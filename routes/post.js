@@ -32,7 +32,7 @@ router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
         // .sort({postedDate: 1})  // TODO: Sort by posted date
         .populate("postedBy", "_id name")
-        .populate("comments.postedBy","_id name")    // Added to populate the commented person name
+        .populate("comments.postedBy", "_id name")    // Added to populate the commented person name
         .then(posts => {
             res.json({ posts });
         })
@@ -57,26 +57,32 @@ router.put('/like', requireLogin, (req, res) => {
         $push: { likes: req.user._id }     // The $push operator appends a user's id who liked to an array
     }, {
         new: true
-    }).exec((err, result) => {
-        if (err) {
-            return res.status(422).json({ error: err })
-        } else {
-            res.json(result)
-        }
     })
+        .populate("postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")
+        .exec((err, result) => {
+            if (err) {
+                return res.status(422).json({ error: err })
+            } else {
+                res.json(result)
+            }
+        })
 })
 router.put('/unlike', requireLogin, (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, {
         $pull: { likes: req.user._id }   // The $pull operator removes from an existing array 
     }, {
         new: true
-    }).exec((err, result) => {
-        if (err) {
-            return res.status(422).json({ error: err })
-        } else {
-            res.json(result)
-        }
     })
+        .populate("postedBy", "_id name")
+        .populate("comments.postedBy", "_id name")
+        .exec((err, result) => {
+            if (err) {
+                return res.status(422).json({ error: err })
+            } else {
+                res.json(result)
+            }
+        })
 })
 
 router.put('/comment', requireLogin, (req, res) => {
@@ -101,23 +107,23 @@ router.put('/comment', requireLogin, (req, res) => {
         })
 })
 
-router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
-    Post.findOne({_id:req.params.postId})
-    .populate("postedBy","_id")
-    .exec((err,post)=>{
-        if(err || !post){
-            return res.status(422).json({error:err})
-        }
-        // Checks if the person who posted & the person who is trying to delete is same or not
-        if(post.postedBy._id.toString() === req.user._id.toString()){
-              post.remove()
-              .then(result=>{
-                  res.json(result)
-              }).catch(err=>{
-                  console.log(err)
-              })
-        }
-    })
+router.delete('/deletepost/:postId', requireLogin, (req, res) => {
+    Post.findOne({ _id: req.params.postId })
+        .populate("postedBy", "_id")
+        .exec((err, post) => {
+            if (err || !post) {
+                return res.status(422).json({ error: err })
+            }
+            // Checks if the person who posted & the person who is trying to delete is same or not
+            if (post.postedBy._id.toString() === req.user._id.toString()) {
+                post.remove()
+                    .then(result => {
+                        res.json(result)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            }
+        })
 })
 
 

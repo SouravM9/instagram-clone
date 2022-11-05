@@ -47,6 +47,7 @@ mongoose.connection.on('error', (err) => {
 app.use(express.json()); // Parse the Json request - middleware
 app.use(require('./routes/auth'));
 app.use(require('./routes/post'));
+app.use(require('./routes/user'));
 
 app.listen(PORT, () => {
     console.log("Server is running on", PORT);

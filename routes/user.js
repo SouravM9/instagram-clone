@@ -5,7 +5,6 @@ const requireLogin = require('../middleware/requireLogin');
 const Post = mongoose.model("Post");
 const User = mongoose.model("User");
 
-
 router.get('/user/:id', requireLogin, (req, res) => {
     User.findOne({ _id: req.params.id })       // Find the user using param
         .select("-password")                    // Return everything excluding password
@@ -22,5 +21,6 @@ router.get('/user/:id', requireLogin, (req, res) => {
             return res.status(404).json({ error: "User not found" })
         })
 });
+
 
 module.exports = router;
