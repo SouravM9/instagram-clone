@@ -37,7 +37,7 @@ const Navbar = () => {
     }
     return (
         <nav>
-            <div className="nav-wrapper white">
+            <div className="nav-wrapper white" style={{padding: "0px 20px"}}>
                 {/* Same list render list i.e., if logged in then only you can go to home screen */}
                 <Link to={state ? "/" : "/login"} className="brand-logo left">Instawild</Link>
                 <ul id="nav-mobile" className="right">

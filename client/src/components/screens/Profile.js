@@ -5,7 +5,7 @@ const Profile = () => {
   const [mypics, setMypics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   const [image, setImage] = useState("");
-
+  const [updateImage, setUpdateImage] = useState(false);
 
   // Used for populating posts
   useEffect(() => {
@@ -58,6 +58,7 @@ const Profile = () => {
           console.log(err)
         })
     }
+    setUpdateImage(false);
   }, [image]);
 
   const updatePhoto = (file) => {
@@ -77,13 +78,17 @@ const Profile = () => {
           justifyContent: "space-around",
 
         }}>
-          <div>
-            <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
+          <div className="img__wrap"
+            onClick={() => updateImage ? setUpdateImage(false) : setUpdateImage(true)}>
+            <img
+              style={{ width: "160px", height: "160px", borderRadius: "80px" , padding: "1rem"}}
               src={state ? state.pic : ""}
               alt="Profile_Picture"
+              className="img__img"
             />
-
+            <p className="img__description">Update Image</p>
           </div>
+
           <div>
             <h4>{state ? state.name : "Loading"}</h4>
             <h5>{state ? state.email : "Loading"}</h5>
@@ -95,19 +100,22 @@ const Profile = () => {
 
           </div>
         </div>
+        {updateImage ?
+          <div className="file-field input-field" style={{ margin: "10px" }}>
+            <div className="btn #64b5f6 blue darken-1">
+              <span>Update pic</span>
+              <input
+                type="file"
+                onChange={(e) => updatePhoto(e.target.files[0])}
+              />
+            </div>
+            <div className="file-path-wrapper">
+              <input className="file-path validate" type="text" />
+            </div>
+          </div>
+          :
+          <div></div>}
 
-        <div className="file-field input-field" style={{ margin: "10px" }}>
-          <div className="btn #64b5f6 blue darken-1">
-            <span>Update pic</span>
-            <input
-              type="file"
-              onChange={(e) => updatePhoto(e.target.files[0])}
-            />
-          </div>
-          <div className="file-path-wrapper">
-            <input className="file-path validate" type="text" />
-          </div>
-        </div>
       </div>
 
       <div className="gallery">
