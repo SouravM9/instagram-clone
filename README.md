@@ -34,4 +34,6 @@ This repository is still under development and I will continue to add more featu
 <img src="./helper/Instagram_Clone_Demo_1.gif" alt="demo1">
 </div> 
 
-**[Live](https://instagram-clone-sm1.herokuapp.com/)**
+## Check out Live
+
+**[Link](https://instagram-clone-sm1.herokuapp.com/)**
